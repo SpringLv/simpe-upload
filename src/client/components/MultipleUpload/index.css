@@ -1,0 +1,29 @@
+.upload_input,
+.upload_div,
+.upload_loading {
+    width: 300px;
+    height: 220px;
+    border: 1px dashed lightblue;
+    margin: 0 auto;
+}
+
+.upload_div {
+    position: relative;
+}
+
+.upload_div:hover {
+    border: 1px dashed blue;
+    color: blue;
+}
+
+.upload_div>p {
+    line-height: 180px;
+}
+
+.upload_input {
+    top: 0;
+    left: 0;
+    z-index: 99;
+    position: absolute;
+    opacity: 0;
+}

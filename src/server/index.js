@@ -1,21 +1,30 @@
 const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const multer = require('multer');
-// const os = require('os');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, 'upload/');
+    },
+    filename(req, file, cb) {
+      const changedName = `${uuidv4()}-${file.originalname}`;
+      cb(null, changedName);
+    }
+  })
+});
 const app = express();
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static('dist'));
-// app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
-// 先引入multer
-const upload = multer();
-// 从upload中获取文件
-
-app.post('/api/upload', upload.any(), (req) => {
-  const inputFiles = req.file;
-  //   const content = inputFiles.inputFile[0].buffer.toString();
-  console.log(inputFiles);
-//   multer({ dest: './uploadFiles/tmp/' });
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  res.send(req.file);
 });
-
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+app.get('/api/test', (req, res) => {
+  res.send({ ok: 0 });
+});
+app.listen(process.env.PORT || 8888, () => console.log(`Listening on port ${process.env.PORT || 8888}!`));
