@@ -7,16 +7,13 @@ const uploadWorker = new Worker('upload');
 // eslint-disable-next-line react/prop-types
 const MultipleUpload = ({ uploaded }) => {
   const [preUploadList, setPreUploadList] = useState([]);
-  //   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
   // 监听worker
   const ListeningWorker = () => {
     uploadWorker.onmessage = function (event) {
       const list = event?.data;
-      //   setFileList(list);
       setLoading(false);
       uploaded(list);
-      console.log(list);
     };
   };
   // 发消息到worker
@@ -25,7 +22,6 @@ const MultipleUpload = ({ uploaded }) => {
   };
   // 选文件
   const haneleSelectFile = (files) => {
-    // setFileList([]);
     setLoading(true);
     sendMessageToWorker(files);
   };
@@ -77,11 +73,6 @@ const MultipleUpload = ({ uploaded }) => {
           onChange={handleUploadChange}
         />
       </div>
-      {/* <div>
-        {
-          fileList.map(item => <p key={item.filename}>{item.filename}</p>)
-        }
-      </div> */}
       <button
         style={{
           marginTop: 30, width: 300, background: '#fff', border: '1px solid #f0f0f0'

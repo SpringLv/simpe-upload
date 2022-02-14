@@ -31,17 +31,12 @@ onmessage = function (event) {
     const num = fl > 60 ? Math.floor(fl / 60) : fl;
     const list = getNewArray(files, num);
     const empt = [];
-    // console.log(list, '======1=====');
-    // console.log(list.flat().length, '-----2------');
-    // if (true) return;
-
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < list.length; i++) {
       // eslint-disable-next-line no-await-in-loop
       const data = await haneleSelectFile(list[i]);
       empt.push(data);
     }
-    // console.log(empt.flat(), '3-------');
     await _this.postMessage(empt.flat());
   };
   const workerResult = event.data.list;
